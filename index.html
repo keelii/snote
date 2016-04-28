@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>editor</title>
+
+    <script type="text/javascript" src="simditor/scripts/jquery.min.js"></script>
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="materialize/css/materialize.min.css">
+    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+
+    <link rel="stylesheet" href="main/css/main.css">
+
+
+    <!--simditor-->
+    <link rel="stylesheet" type="text/css" href="simditor/styles/simditor.css" />
+    <script type="text/javascript" src="simditor/scripts/module.js"></script>
+    <script type="text/javascript" src="simditor/scripts/hotkeys.js"></script>
+    <script type="text/javascript" src="simditor/scripts/uploader.js"></script>
+    <script type="text/javascript" src="simditor/scripts/simditor.js"></script>
+
+</head>
+<body>
+
+<div class="banner teal lighten-3">
+
+    <div class="container">
+        <h1 class="white-text">Simple Note</h1>
+    </div>
+
+</div>
+
+
+<div class="container">
+    <h3 class="green-text">Write one</h3>
+
+    <div class="row">
+        <div class="input-field col s12">
+            <input id="title" type="text" class="validate">
+            <label for="title">Title</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
+            <textarea id="editor" class="materialize-textarea"></textarea>
+            <label for="editor" class="">Note content</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <input class="with-gap" name="group3" type="radio" id="private" checked />
+            <label for="private">private</label>
+
+
+            <input class="with-gap" name="group3" type="radio" id="public" />
+            <label for="public">public</label>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <a class="waves-effect waves-light btn">Save</a>
+        </div>
+    </div>
+</div>
+
+<div class="fixed-action-btn horizontal click-to-toggle" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red">
+        <i class="material-icons">menu</i>
+    </a>
+    <ul>
+        <li><a class="btn-floating green"><i class="material-icons">add</i></a></li>
+        <li><a class="btn-floating teal"><i class="material-icons">edit</i></a></li>
+        <li><a class="btn-floating red"><i class="material-icons">delete</i></a></li>
+        <li><a class="btn-floating blue"><i class="material-icons">exit_to_app</i></a></li>
+    </ul>
+</div>
+
+<script>
+
+    // var editor = new Simditor({
+    //     textarea: $('#editor')
+    // });
+
+    $(document).ready(function() {
+        Materialize.updateTextFields();
+    });
+
+</script>
+
+</body>
+</html>
