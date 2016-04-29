@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>write</title>
+    <title>Login</title>
 
     <script type="text/javascript" src="simditor/scripts/jquery.min.js"></script>
 
@@ -34,38 +34,46 @@
 
 
 <div class="container">
-    <h3 class="green-text">Write one</h3>
-
+    <br>
     <div class="row">
-        <div class="input-field col s12">
-            <input id="title" type="text" class="validate">
-            <label for="title">Title</label>
-        </div>
+        <form class="col s6 push-s3">
+
+            <div class="row">
+                <div class="col s12 lime white-text valign-wrapper">
+                    <div class="error-message">
+                        <i class="material-icons">error_outline</i> Password error!
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="email" type="email" class="validate">
+                    <label for="email">Email</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="password" type="password" class="validate">
+                    <label for="password">Password</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <p>
+                        <input type="checkbox" id="test9">
+                        <label for="test9">Remember me</label>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <a class="waves-effect waves-light btn">Log in</a>
+                    new guy? <a href="signup.html">Sign up</a>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <textarea id="editor" class="materialize-textarea"></textarea>
-            <label for="editor" class="">Note content</label>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col s12">
-            <input class="with-gap" name="group3" type="radio" id="private" checked />
-            <label for="private">private</label>
-
-
-            <input class="with-gap" name="group3" type="radio" id="public" />
-            <label for="public">public</label>
-
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col s12">
-            <a class="waves-effect waves-light btn">Save</a>
-        </div>
-    </div>
 </div>
 
 <div class="fixed-action-btn horizontal click-to-toggle" style="bottom: 45px; right: 24px;">

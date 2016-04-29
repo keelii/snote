@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>editor</title>
+    <title>index</title>
 
     <script type="text/javascript" src="simditor/scripts/jquery.min.js"></script>
 
@@ -34,38 +34,53 @@
 
 
 <div class="container">
-    <h3 class="green-text">Write one</h3>
 
     <div class="row">
-        <div class="input-field col s12">
-            <input id="title" type="text" class="validate">
-            <label for="title">Title</label>
+        <div class="col s4">
+            <div class="note-card card">
+                <div class="card-content">
+                    <span class="card-title"><a class="green-text" href="">Note title</a></span>
+                    <p class="desc"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime accusamus a adipisci quis pariatur, eaque? Perferendis assumenda pariatur blanditiis repellendus praesentium dolorem</p>
+                </div>
+                <div class="card-action white">
+                    <span class="user teal-text">
+                        <i class="material-icons">perm_identity</i>
+                        <em>kily</em>
+                    </span>
+                    <a href class="favor teal-text">
+                        <i class="material-icons">thumb_up</i>
+                        <em>10</em>
+                    </a>
+                    <!--login-->
+                    <span class="teal-text">
+                        <i class="material-icons">public</i>
+                        public
+                    </span>
+                    <a href="#none">
+                        <i class="material-icons green-text">edit</i>
+                    </a>
+                    <a href="#none">
+                        <i class="material-icons red-text">delete</i>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
+
     <div class="row">
-        <div class="input-field col s12">
-            <textarea id="editor" class="materialize-textarea"></textarea>
-            <label for="editor" class="">Note content</label>
+        <div class="col s12 center">
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col s12">
-            <input class="with-gap" name="group3" type="radio" id="private" checked />
-            <label for="private">private</label>
-
-
-            <input class="with-gap" name="group3" type="radio" id="public" />
-            <label for="public">public</label>
-
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col s12">
-            <a class="waves-effect waves-light btn">Save</a>
-        </div>
-    </div>
 </div>
 
 <div class="fixed-action-btn horizontal click-to-toggle" style="bottom: 45px; right: 24px;">

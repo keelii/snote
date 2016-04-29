@@ -2,3 +2,25 @@
     padding: 100px 0;
     background:url(../images/bg.jpg) center center no-repeat;
 }
+
+.note-card .desc {
+    height: 4.2em;
+    overflow: hidden;
+}
+.note-card .card-action span {
+    margin-right: 1em;
+}
+.note-card .card-action em {
+    font-style: normal;
+}
+.note-card .material-icons {
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+.error-message {
+    padding: 1em;
+}
+.error-message .material-icons {
+    vertical-align: middle;
+}
