@@ -1,0 +1,16 @@
+{% extends 'layout/layout.html' %}
+
+{% block body %}
+
+<div class="container">
+
+    <div class="note-body">
+        <h3 class="green-text">{{ note.title }}</h3>
+        <div class="note-content">{{ note.content | safe }}</div>
+    </div>
+
+</div>
+
+{% include 'inc/menu.html' %}
+
+{% endblock %}
