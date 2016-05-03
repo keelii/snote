@@ -19,7 +19,7 @@
     {% endif %}
     {% endwith %}
     <h3 class="green-text">Write one</h3>
-    <form action="{{ url_for('write') }}" method="post">
+    <form action="{% if not note %}{{ url_for('write') }}{% else %}{{ url_for('edit', id=note.id) }}{% endif %}" method="post">
 
         <div class="row">
             <div class="input-field col s12">
@@ -27,14 +27,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="col s12">
                 {{ render_field(form.content) }}
             </div>
         </div>
-
         <div class="row">
-            <div class="col s12">
-                {{ render_field(form.public) }}
+            <div class="input-field" style="margin-top:0;margin-bottom:1rem">
+                <span title="Others can view.">{{ render_field(form.public) }}</span>
             </div>
         </div>
 

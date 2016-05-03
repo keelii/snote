@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 from flask import Flask, request, render_template, flash, g, url_for, abort, redirect
 from database import init_db, db_session
 from flask.ext.login import LoginManager, current_user, login_required, login_user, logout_user
 from models import User, Note
-from form import SignupForm, LoginForm, CreateNoteForm
+from form import SignupForm, LoginForm, CreateNoteForm, EditNoteForm
 
 app = Flask(__name__)
 
@@ -26,13 +27,15 @@ def unauthorized():
     return redirect(url_for('login'))
 
 # Helpers
+
+def getNoteUrl(note):
+    if note.public:
+        return '/note/%s' % note.id
+    else:
+        return '/%s/%s' % (current_user.nick_name, note.id)
+
 @app.context_processor
 def utility_processor():
-    def getNoteUrl(note):
-        if note.public:
-            return '/note/%s' % note.id
-        else:
-            return '/%s/%s' % (current_user.nick_name, note.id)
     return dict(getNoteUrl=getNoteUrl)
 
 # Routes
@@ -43,7 +46,7 @@ def index():
     else:
         notes = Note.query.filter_by(public=1).order_by(Note.created_at.desc())
 
-    return render_template('index.html', title='home', notes=notes);
+    return render_template('index.html', title='home', notes=notes, isHome=True);
 
 @app.route('/note/<int:id>')
 def show_note(id):
@@ -53,18 +56,63 @@ def show_note(id):
         return render_template('404.html', title='page not found')
 
     print note.title
-    return render_template('detail.html', title=note.title, note=note)
+    return render_template('detail.html', title=note.title, note=note, isDetail=True)
 
 @app.route('/<user>/<int:id>')
 @login_required
 def show_user_note(user, id):
     note = Note.query.filter_by(id=id).first()
 
+    # current user must be the note's author
     if user != current_user.nick_name or note == None:
         return render_template('404.html', title='page not found')
 
-    print user != current_user.nick_name
-    return render_template('detail.html', title=note.title, note=note)
+    return render_template('detail.html', title=note.title, note=note, isDetail=True)
+
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete(id):
+    form = EditNoteForm(request.form)
+    note = Note.query.filter_by(id=id).first()
+
+    # current user must be the note's author
+    if note.user_id != current_user.id or note == None:
+        return render_template('404.html', title='page not found')
+
+    result = note.delete()
+
+    if result == 'success':
+        return redirect(url_for('index'))
+    else:
+        return render_template('500.html', title='delete note error')
+
+@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit(id):
+    form = EditNoteForm(request.form)
+    note = Note.query.filter_by(id=id).first()
+
+    # current user must be the note's author
+    if note.user_id != current_user.id or note == None:
+        return render_template('404.html', title='page not found')
+
+    if request.method == 'GET':
+        form.title.data = note.title
+        form.content.data = note.content
+        form.public.data = note.public
+
+    if request.method == 'POST' and form.validate():
+        note.title = form.title.data
+        note.content = form.content.data
+        note.public = form.public.data
+
+        result = note.update()
+        if result == 'success':
+            flash(u'You`v edit your note. 「<a href="{0}">{1}</a>」'.format(getNoteUrl(note), form.title.data), result)
+        else:
+            flash('Saving with an error.', result)
+
+    return render_template('write.html', title='edit', note=note, form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -132,7 +180,7 @@ def write():
         )
         result = note.create()
         if result == 'success':
-            flash('You`v add a new note. [%s]' % form.title.data, result)
+            flash(u'You`v add a new note. 「<a href="{0}">{1}</a>」'.format(getNoteUrl(note), form.title.data), result)
         else:
             flash('Saving with an error.', result)
 

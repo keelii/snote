@@ -24,8 +24,6 @@ class Note(Base, UserMixin):
         self.public = public
         self.user = user
 
-        self.gen_time();
-
     def gen_time(self):
         if self.created_at is None:
             self.created_at = datetime.now()
@@ -33,6 +31,7 @@ class Note(Base, UserMixin):
             self.updated_at = datetime.now()
 
     def create(self):
+        self.gen_time()
         try:
             db_session.add(self)
             db_session.commit()
@@ -53,8 +52,18 @@ class Note(Base, UserMixin):
 
         return 'success'
 
+    def delete(self):
+        try:
+            db_session.delete(self)
+            db_session.commit()
+        except Exception, e:
+            print e
+            return 'error'
+
+        return 'success'
+
     def __repr__(self):
-        return '%s (%r, %r)' % (self.__class__.id, self.title, self.public)
+        return '<Note %r>' % self.title
 
 class User(Base, UserMixin):
     __tablename__ = 'users'
@@ -103,4 +112,4 @@ class User(Base, UserMixin):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return '%s (%r, %r)' % (self.__class__.email, self.nick_name, self.created_at)
+        return '<User %r>' % self.email

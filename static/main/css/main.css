@@ -1,6 +1,10 @@
 .header {
+    height: 350px;
     padding: 100px 0;
     background:url(../images/bg.jpg) center center no-repeat;
+}
+.container {
+    margin-bottom: 50px;
 }
 body {
     color:#666;

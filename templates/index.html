@@ -39,11 +39,11 @@
                     {% endif %}
                     <!--login-->
                     {% if current_user.is_authenticated %}
-                    <a href="#none">
-                        <i class="material-icons green-text">edit</i>
+                    <a href="{{ url_for('edit', id=note.id) }}">
+                        <i class="material-icons teal-text">edit</i>
                     </a>
-                    <a href="#none">
-                        <i class="material-icons red-text">delete</i>
+                    <a href="{{ url_for('delete', id=note.id) }}">
+                        <i class="material-icons teal-text">delete</i>
                     </a>
                     {% endif %}
                 </div>

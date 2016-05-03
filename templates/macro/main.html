@@ -14,15 +14,15 @@
 {% macro get_flash_message_html(type, msg) -%}
     {% if type == 'success' %}
     <div class="flash-message green">
-        <i class="material-icons">done</i> {{ msg }}
+        <i class="material-icons">done</i> {{ msg | safe }}
     </div>
     {% elif type == 'warning' %}
     <div class="flash-message lime">
-        <i class="material-icons">warning</i> {{ msg }}
+        <i class="material-icons">warning</i> {{ msg | safe }}
     </div>
     {% else %}
     <div class="flash-message red">
-        <i class="material-icons">error</i> {{ msg }}
+        <i class="material-icons">error</i> {{ msg | safe }}
     </div>
     {% endif %}
 {%- endmacro %}
