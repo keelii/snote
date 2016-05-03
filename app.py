@@ -27,7 +27,6 @@ def unauthorized():
     return redirect(url_for('login'))
 
 # Helpers
-
 def getNoteUrl(note):
     if note.public:
         return '/note/%s' % note.id
@@ -55,7 +54,6 @@ def show_note(id):
     if note == None:
         return render_template('404.html', title='page not found')
 
-    print note.title
     return render_template('detail.html', title=note.title, note=note, isDetail=True)
 
 @app.route('/<user>/<int:id>')

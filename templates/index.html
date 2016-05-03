@@ -17,7 +17,7 @@
                     <span class="card-title truncate">
                         <a class="green-text" title="{{ note.title }}" href="{{ getNoteUrl(note) }}">{{ note.title }}</a>
                     </span>
-                    <p class="desc"> {{ note.content | striptags }}</p>
+                    <p class="desc"> {{ note.content | truncate(length=500) | striptags }}</p>
                 </div>
                 <div class="card-action white">
                     {% if not current_user.is_authenticated %}
