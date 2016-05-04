@@ -1,5 +1,11 @@
 {% extends 'layout/layout.html' %}
 
+{% block robots %}
+    {% if not note.public %}
+    <meta name="robots" content="noindex">
+    {% endif %}
+{% endblock %}
+
 {% block body %}
 
 <div class="container">

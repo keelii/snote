@@ -4,6 +4,10 @@ from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Foreign
 from sqlalchemy.orm import relationship, backref
 from database import Base, db_session
 from werkzeug.security import generate_password_hash, check_password_hash
+from crypt import MyCrypt
+
+# !!! Do not show anyone else !!!
+key = '1234567890abcdef'
 
 class Note(Base, UserMixin):
     __tablename__ = 'notes'
@@ -18,6 +22,16 @@ class Note(Base, UserMixin):
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship('User', backref=backref('notes', lazy='dynamic'))
 
+    @staticmethod
+    def getNoteById(id):
+        ec = MyCrypt(key)
+        note = Note.query.filter_by(id=id).first()
+
+        if note != None and not note.public:
+            note.content = ec.decrypt(note.content).decode('utf-8')
+
+        return note
+
     def __init__(self, title, content, public, user):
         self.title = title
         self.content = content
@@ -30,8 +44,15 @@ class Note(Base, UserMixin):
         if self.updated_at is None:
             self.updated_at = datetime.now()
 
+    def encryptContent(self):
+        ec = MyCrypt(key)
+        if not self.public:
+            self.content = ec.encrypt(self.content)
+
     def create(self):
         self.gen_time()
+        self.encryptContent()
+
         try:
             db_session.add(self)
             db_session.commit()
@@ -43,6 +64,8 @@ class Note(Base, UserMixin):
 
     def update(self):
         self.updated_at = datetime.now()
+        self.encryptContent()
+
         try:
             db_session.add(self)
             db_session.commit()

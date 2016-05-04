@@ -59,13 +59,34 @@ def show_note(id):
 @app.route('/<user>/<int:id>')
 @login_required
 def show_user_note(user, id):
-    note = Note.query.filter_by(id=id).first()
+    # note = Note.query.filter_by(id=id).first()
+    note = Note.getNoteById(id)
 
     # current user must be the note's author
     if user != current_user.nick_name or note == None:
         return render_template('404.html', title='page not found')
 
     return render_template('detail.html', title=note.title, note=note, isDetail=True)
+
+
+@app.route('/write', methods=['GET', 'POST'])
+@login_required
+def write():
+    form = CreateNoteForm(request.form)
+    if request.method == 'POST' and form.validate():
+        note = Note(
+            form.title.data,
+            form.content.data,
+            form.public.data,
+            current_user
+        )
+        result = note.create()
+        if result == 'success':
+            flash(u'You`v add a new note. 「<a href="{0}">{1}</a>」'.format(getNoteUrl(note), form.title.data), result)
+        else:
+            flash('Saving with an error.', result)
+
+    return render_template('write.html', title='write', form=form)
 
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -164,25 +185,6 @@ def signup():
 def logout():
     logout_user()
     return redirect(url_for('index'))
-
-@app.route('/write', methods=['GET', 'POST'])
-@login_required
-def write():
-    form = CreateNoteForm(request.form)
-    if request.method == 'POST' and form.validate():
-        note = Note(
-            form.title.data,
-            form.content.data,
-            form.public.data,
-            current_user
-        )
-        result = note.create()
-        if result == 'success':
-            flash(u'You`v add a new note. 「<a href="{0}">{1}</a>」'.format(getNoteUrl(note), form.title.data), result)
-        else:
-            flash('Saving with an error.', result)
-
-    return render_template('write.html', title='write', form=form)
 
 # Error handling
 @app.errorhandler(404)
