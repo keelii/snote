@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from wtforms import Form, BooleanField, TextField, TextAreaField, RadioField, PasswordField
 from wtforms.validators import Length, Required, EqualTo, Email
 

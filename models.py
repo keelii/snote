@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask.ext.login import UserMixin
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey
@@ -47,7 +48,7 @@ class Note(Base, UserMixin):
     def encryptContent(self):
         ec = MyCrypt(key)
         if not self.public:
-            self.content = ec.encrypt(self.content)
+            self.content = ec.encrypt(self.content.encode('utf-8'))
 
     def create(self):
         self.gen_time()

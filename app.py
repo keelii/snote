@@ -109,7 +109,8 @@ def delete(id):
 @login_required
 def edit(id):
     form = EditNoteForm(request.form)
-    note = Note.query.filter_by(id=id).first()
+    # note = Note.query.filter_by(id=id).first()
+    note = Note.getNoteById(id);
 
     # current user must be the note's author
     if note.user_id != current_user.id or note == None:
