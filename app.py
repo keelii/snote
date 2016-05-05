@@ -29,9 +29,9 @@ def unauthorized():
 # Helpers
 def getNoteUrl(note):
     if note.public:
-        return '/note/%s' % note.id
+        return '/note/{0}'.format(note.id)
     else:
-        return '/%s/%s' % (current_user.nick_name, note.id)
+        return '/{0}/{1}'.format(current_user.nick_name, note.id)
 
 @app.context_processor
 def utility_processor():
@@ -44,6 +44,10 @@ def index():
         notes = Note.query.filter_by(user_id=current_user.id).order_by(Note.created_at.desc())
     else:
         notes = Note.query.filter_by(public=1).order_by(Note.created_at.desc())
+
+    for note in notes:
+        if not note.public:
+            note.decryptContent()
 
     return render_template('index.html', title='home', notes=notes, isHome=True);
 
@@ -59,8 +63,8 @@ def show_note(id):
 @app.route('/<user>/<int:id>')
 @login_required
 def show_user_note(user, id):
-    # note = Note.query.filter_by(id=id).first()
-    note = Note.getNoteById(id)
+    note = Note.query.filter_by(id=id).first()
+    note.decryptContent()
 
     # current user must be the note's author
     if user != current_user.nick_name or note == None:
@@ -86,7 +90,7 @@ def write():
         else:
             flash('Saving with an error.', result)
 
-    return render_template('write.html', title='write', form=form)
+    return render_template('write.html', title='write', form=form, isWrite=True)
 
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -109,8 +113,8 @@ def delete(id):
 @login_required
 def edit(id):
     form = EditNoteForm(request.form)
-    # note = Note.query.filter_by(id=id).first()
-    note = Note.getNoteById(id);
+    note = Note.query.filter_by(id=id).first()
+    note.decryptContent()
 
     # current user must be the note's author
     if note.user_id != current_user.id or note == None:
@@ -132,7 +136,7 @@ def edit(id):
         else:
             flash('Saving with an error.', result)
 
-    return render_template('write.html', title='edit', note=note, form=form)
+    return render_template('write.html', title='edit', note=note, form=form, isEdit=True)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

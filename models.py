@@ -23,16 +23,6 @@ class Note(Base, UserMixin):
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship('User', backref=backref('notes', lazy='dynamic'))
 
-    @staticmethod
-    def getNoteById(id):
-        ec = MyCrypt(key)
-        note = Note.query.filter_by(id=id).first()
-
-        if note != None and not note.public:
-            note.content = ec.decrypt(note.content).decode('utf-8')
-
-        return note
-
     def __init__(self, title, content, public, user):
         self.title = title
         self.content = content
@@ -49,6 +39,11 @@ class Note(Base, UserMixin):
         ec = MyCrypt(key)
         if not self.public:
             self.content = ec.encrypt(self.content.encode('utf-8'))
+
+    def decryptContent(self):
+        ec = MyCrypt(key)
+        if not self.public:
+            self.content = ec.decrypt(self.content).decode('utf-8')
 
     def create(self):
         self.gen_time()

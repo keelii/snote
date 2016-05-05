@@ -51,7 +51,10 @@
 <script src="{{ url_for('static', filename='simditor/scripts/uploader.js') }}"></script>
 <script src="{{ url_for('static', filename='simditor/scripts/simditor.js') }}"></script>
 <script>
+    var toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'];
     var editor = new Simditor({
+        toolbar: toolbar,
+        // upload: '/upload',
         textarea: $('#editor')
     });
 </script>

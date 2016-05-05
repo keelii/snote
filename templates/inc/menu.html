@@ -1,12 +1,22 @@
 <div class="fixed-action-btn horizontal" style="bottom: 45px; right: 24px;">
     {% if isHome %}
-    <a class="btn-floating btn-large red" href="{{ url_for('write') }}">
-        <i class="material-icons">add</i>
-    </a>
+        <a class="btn-floating btn-large red" href="{{ url_for('write') }}">
+            <i class="material-icons">add</i>
+        </a>
     {% else %}
-    <a class="btn-floating btn-large red">
-        <i class="material-icons">menu</i>
-    </a>
+        {% if current_user.is_authenticated and isDetail %}
+        <a class="btn-floating btn-large red" href="{{ url_for('edit', id=note.id) }}">
+            <i class="material-icons">edit</i>
+        </a>
+        {% elif isEdit %}
+        <a class="btn-floating btn-large red" href="{{ url_for('index') }}">
+            <i class="material-icons">home</i>
+        </a>
+        {% else %}
+        <a class="btn-floating btn-large red">
+            <i class="material-icons">menu</i>
+        </a>
+        {% endif %}
     {% endif %}
 
     <ul>
