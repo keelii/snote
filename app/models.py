@@ -1,27 +1,29 @@
 # -*- coding: utf-8 -*-
 from flask.ext.login import UserMixin
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey
-from sqlalchemy.orm import relationship, backref
-from database import Base, db_session
+# from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, db.ForeignKey
+# from sqlalchemy.orm import db.relationship, backref
+# from database import Base, db.session
 from werkzeug.security import generate_password_hash, check_password_hash
+
+from . import db
 from crypt import MyCrypt
 
 # !!! Do not show anyone else !!!
 key = '1234567890abcdef'
 
-class Note(Base, UserMixin):
+class Note(db.Model, UserMixin):
     __tablename__ = 'notes'
 
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(100))
-    content = Column(Text)
-    public = Column(Boolean())
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    title = db.Column(db.String(100))
+    content = db.Column(db.Text)
+    public = db.Column(db.Boolean())
+    created_at = db.Column(db.DateTime)
+    updated_at = db.Column(db.DateTime)
 
-    user_id = Column(Integer, ForeignKey('users.id'))
-    user = relationship('User', backref=backref('notes', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('User', backref=db.backref('notes', lazy='dynamic'))
 
     def __init__(self, title, content, public, user):
         self.title = title
@@ -50,8 +52,8 @@ class Note(Base, UserMixin):
         self.encryptContent()
 
         try:
-            db_session.add(self)
-            db_session.commit()
+            db.session.add(self)
+            db.session.commit()
         except Exception, e:
             print e
             return 'error'
@@ -63,8 +65,8 @@ class Note(Base, UserMixin):
         self.encryptContent()
 
         try:
-            db_session.add(self)
-            db_session.commit()
+            db.session.add(self)
+            db.session.commit()
         except Exception, e:
             print e
             return 'error'
@@ -73,8 +75,8 @@ class Note(Base, UserMixin):
 
     def delete(self):
         try:
-            db_session.delete(self)
-            db_session.commit()
+            db.session.delete(self)
+            db.session.commit()
         except Exception, e:
             print e
             return 'error'
@@ -84,14 +86,14 @@ class Note(Base, UserMixin):
     def __repr__(self):
         return '<Note %r>' % self.title
 
-class User(Base, UserMixin):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True, index=True)
-    nick_name = Column(String(25))
-    email = Column(String(40), unique=True,)
-    password_hash = Column(String(120))
-    created_at = Column(DateTime)
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    nick_name = db.Column(db.String(25))
+    email = db.Column(db.String(40), unique=True,)
+    password_hash = db.Column(db.String(120))
+    created_at = db.Column(db.DateTime)
 
     def __init__(self, email, password, nick_name):
         self.email = email
@@ -116,8 +118,8 @@ class User(Base, UserMixin):
         self.created_at = datetime.now();
 
         try:
-            db_session.add(self)
-            db_session.commit()
+            db.session.add(self)
+            db.session.commit()
         except Exception, e:
             print e
             return 'error'

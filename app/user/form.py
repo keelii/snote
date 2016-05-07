@@ -29,23 +29,3 @@ class LoginForm(Form):
         Length(min=6, max=20)
     ])
     remember = BooleanField('remember')
-
-class CreateNoteForm(Form):
-    title = TextField('Title', validators=[
-        Required(),
-        Length(min=1, max=100)
-    ])
-    content = TextAreaField(' ', validators=[
-        Required()
-    ],  render_kw={"id": "editor"})
-    public = BooleanField('Public', render_kw={"title": "Others can view."})
-
-class EditNoteForm(Form):
-    title = TextField('Title', validators=[
-        Required(),
-        Length(min=1, max=100)
-    ])
-    content = TextAreaField(' ', validators=[
-        Required()
-    ],  render_kw={"id": "editor"})
-    public = BooleanField('Public', render_kw={"title": "Others can view."})

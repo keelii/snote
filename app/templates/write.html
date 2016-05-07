@@ -19,7 +19,7 @@
     {% endif %}
     {% endwith %}
     <h3 class="green-text">Write one</h3>
-    <form action="{% if not note %}{{ url_for('write') }}{% else %}{{ url_for('edit', id=note.id) }}{% endif %}" method="post">
+    <form action="{% if not note %}{{ url_for('note.write') }}{% else %}{{ url_for('note.edit', id=note.id) }}{% endif %}" method="post">
 
         <div class="row">
             <div class="input-field col s12">
