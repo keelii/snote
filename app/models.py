@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
+from flask import current_app
 from flask.ext.login import UserMixin
 from datetime import datetime
-# from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, db.ForeignKey
-# from sqlalchemy.orm import db.relationship, backref
-# from database import Base, db.session
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from . import db
 from crypt import MyCrypt
-
-# !!! Do not show anyone else !!!
-key = '1234567890abcdef'
 
 class Note(db.Model, UserMixin):
     __tablename__ = 'notes'
@@ -38,12 +33,12 @@ class Note(db.Model, UserMixin):
             self.updated_at = datetime.now()
 
     def encryptContent(self):
-        ec = MyCrypt(key)
+        ec = MyCrypt(current_app.config['SECRET_KEY'])
         if not self.public:
             self.content = ec.encrypt(self.content.encode('utf-8'))
 
     def decryptContent(self):
-        ec = MyCrypt(key)
+        ec = MyCrypt(current_app.config['SECRET_KEY'])
         if not self.public:
             self.content = ec.decrypt(self.content).decode('utf-8')
 
@@ -52,6 +47,26 @@ class Note(db.Model, UserMixin):
         print ' title | content | public '
         print ' {0} | {1} | {2} '.format(self.title, self.content[:10], self.public)
         print '--'*30
+
+    @staticmethod
+    def getIndexNotes():
+        notes = Note.query.filter_by(public=1).order_by(Note.created_at.desc())
+
+        for note in notes:
+            if not note.public:
+                note.decryptContent()
+
+        return notes
+
+    @staticmethod
+    def getUserNotes(user_id):
+        notes = Note.query.filter_by(user_id=user_id).order_by(Note.created_at.desc())
+
+        for note in notes:
+            if not note.public:
+                note.decryptContent()
+
+        return notes
 
     def create(self):
         self.gen_time()

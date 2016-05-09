@@ -3,11 +3,16 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 def getDatabasePath(name):
-    return 'sqlite:///' + os.path.join(basedir, os.path.pardir, 'db', name)
+    return 'sqlite:///' + os.path.join(basedir, 'db', name)
 
 class Config:
+    # !!! Do not show anyone else !!!
     SECRET_KEY = os.environ.get('SECRET_KEY') or '1234567890abcdef'
+
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+
+    # Note
+    NOTE_NUM_PER_PAGE = 3
 
     @staticmethod
     def init_app(app):

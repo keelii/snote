@@ -9,6 +9,12 @@
 body {
     color:#666;
 }
+.nav .nav-wrapper {
+    padding-left: 20px;
+}
+.tab {
+    padding: 10px 0;
+}
 .material-icons {
     vertical-align: middle;
 }

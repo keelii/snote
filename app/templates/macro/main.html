@@ -26,3 +26,29 @@
     </div>
     {% endif %}
 {%- endmacro %}
+
+{% macro render_pagination(pagination, endpoint, curr_page, user) -%}
+    <ul class=pagination>
+    {% if pagination.has_prev %}
+    <li><a href="{{ url_for(endpoint, user=user, page=curr_page-1) }}"><i class="material-icons">chevron_left</i></a></li>
+    {% else %}
+    <li class="disabled"><a href="javascript:;"><i class="material-icons">chevron_left</i></a></li>
+    {% endif %}
+
+    {%- for page in pagination.iter_pages() %}
+        {% if page %}
+            {% if page != pagination.page %}
+            <li class="waves-effect"><a href="{{ url_for(endpoint, user=user, page=page) }}">{{ page }}</a></li>
+            {% else %}
+            <li class="active"><a href="{{ url_for(endpoint, user=user, page=page) }}">{{ page }}</a></li>
+            {% endif %}
+        {% endif %}
+    {%- endfor %}
+
+    {% if pagination.has_next %}
+    <li><a href="{{ url_for(endpoint, user=user, page=curr_page+1) }}"><i class="material-icons">chevron_right</i></a></li>
+    {% else %}
+    <li class="disabled"><a href="javascript:;"><i class="material-icons">chevron_right</i></a></li>
+    {% endif %}
+    </ul>
+{%- endmacro %}

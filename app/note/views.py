@@ -1,20 +1,52 @@
 # -*- coding: utf-8 -*-
-from flask import request, render_template, url_for, flash, abort, redirect
-from ..models import Note
-from . import note as NOTE
+from flask import request, render_template, url_for, flash, abort, redirect, current_app
 from flask.ext.login import current_user, login_required
+from flask.ext.sqlalchemy import Pagination
 from form import CreateNoteForm, EditNoteForm
+from . import note as NOTE
+from ..models import Note
 from ..helper import getNoteUrl
 
-@NOTE.route('/notes')
-def show_public_notes():
-    notes = Note.query.filter_by(public=1).order_by(Note.created_at.desc())
+@NOTE.route('/notes', defaults={'page': 1})
+def show_public_notes(page=1):
+    pagination = Note.getIndexNotes().paginate(
+        page=page,
+        per_page=current_app.config['NOTE_NUM_PER_PAGE'],
+        error_out=True
+    )
 
-    for note in notes:
-        if not note.public:
-            note.decryptContent()
+    return render_template('index.html', title='home', isHome=True,
+        notes=pagination.items, pagination=pagination, page=page)
 
-    return render_template('index.html', title='home', notes=notes, isHome=True);
+@NOTE.route('/page/<int:page>')
+def show_page_note(page):
+    pagination = Note.getIndexNotes().paginate(
+        page=page,
+        per_page=current_app.config['NOTE_NUM_PER_PAGE'],
+        error_out=True
+    )
+
+    return render_template('index.html', title='home', isHome=True,
+        notes=pagination.items, pagination=pagination, page=page)
+
+@NOTE.route('/notes/<user>', defaults={'page': 1})
+@login_required
+def show_user_notes(user, page):
+    if user != current_user.nick_name:
+        return render_template('404.html', title='page not found')
+
+    pagination = Note.getUserNotes(current_user.id).paginate(
+        page=page,
+        per_page=current_app.config['NOTE_NUM_PER_PAGE'],
+        error_out=True
+    )
+
+    print '-'*30
+    print dir(pagination.items.count)
+    return render_template('index.html', title='home',
+        isHome=True,
+        isUserNote=True,
+        notes=pagination.items, pagination=pagination, page=page);
 
 @NOTE.route('/note/<int:id>')
 def show_note(id):
@@ -24,20 +56,6 @@ def show_note(id):
         return render_template('404.html', title='page not found')
 
     return render_template('detail.html', title=note.title, note=note, isDetail=True)
-
-@NOTE.route('/notes/<user>')
-@login_required
-def show_user_notes(user):
-    if user != current_user.nick_name:
-        return render_template('404.html', title='page not found')
-
-    notes = Note.query.filter_by(user_id=current_user.id).order_by(Note.created_at.desc())
-
-    for note in notes:
-        if not note.public:
-            note.decryptContent()
-
-    return render_template('index.html', title='home', notes=notes, isHome=True);
 
 @NOTE.route('/<user>/<int:id>')
 @login_required
@@ -64,7 +82,7 @@ def write():
         )
         result = note.create()
         if result == 'success':
-            flash(u'You`v add a new note. 「<a href="{0}">{1}</a>」'.format(getNoteUrl(note), form.title.data), result)
+            flash(u'You`v add a new note. 「<a class="black-text" href="{0}">{1}</a>」'.format(getNoteUrl(note), form.title.data), result)
         else:
             flash('Saving with an error.', result)
 
@@ -93,7 +111,7 @@ def edit(id):
 
         result = note.update()
         if result == 'success':
-            flash(u'You`v edit your note. 「<a href="{0}">{1}</a>」'.format(getNoteUrl(note), form.title.data), result)
+            flash(u'You`v edit your note. 「<a class="black-text" href="{0}">{1}</a>」'.format(getNoteUrl(note), form.title.data), result)
         else:
             flash('Saving with an error.', result)
 

@@ -33,7 +33,7 @@ def login():
             user.password_hash = u.password_hash
             if user.verify_password(form.password.data):
                 login_user(user, remember=form.remember.data)
-                flash('Hi~ %s, you just login success.' % user.getDisplayName(), 'warning')
+                # flash('Hi~ %s, you just login success.' % user.getDisplayName(), 'warning')
 
                 return redirect(url_for('main.index'))
             else:
@@ -47,7 +47,7 @@ def signup():
 
     def showMessage(type):
         if type == 'success':
-            flash('Your account has been created.', 'success')
+            flash('Your account has been created. <a class="black-text" href="{0}">write</a> a new note?'.format(url_for('note.write')), 'success')
         if type == 'exists':
             flash('This Email address is exists.', 'warning')
         if type == 'error':
