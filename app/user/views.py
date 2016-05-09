@@ -2,7 +2,7 @@
 from flask import request, render_template, url_for, flash, abort, redirect
 from ..models import User
 from . import user as USER
-from flask.ext.login import current_user, login_required, login_user
+from flask.ext.login import current_user, login_required, login_user, logout_user
 from form import SignupForm, LoginForm
 
 from .. import login_manager

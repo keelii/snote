@@ -6,9 +6,28 @@
 
 <div class="container">
     <br>
+    <nav>
+        <div class="nav-wrapper">
+            <div class="col s12">
+                <a href="{{ url_for('main.index') }}" class="breadcrumb">Home</a>
+                <a href="{{ url_for('note.show_public_notes') }}" class="breadcrumb">Notes</a>
+                <a href="#!" class="breadcrumb">Third</a>
+            </div>
+        </div>
+    </nav>
     {% if current_user.is_authenticated %}
         Hi {{ current_user.nick_name }}!
     {% endif %}
+    <div class="row">
+        <div class="col s6">
+            <ul class="tabs">
+                <li class="tab col s3"><a href="{{ url_for('main.index') }}">大家的笔记</a></li>
+                {% if current_user.is_authenticated %}
+                <li class="tab col s3"><a href="{{ url_for('note.show_user_notes', user=current_user.nick_name) }}">我的笔记</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
     <div class="row">
         {% for note in notes %}
         <div class="col s4">
@@ -20,25 +39,17 @@
                     <p class="desc">{{ note.content | truncate(length=500) | striptags }}</p>
                 </div>
                 <div class="card-action white">
-                    {% if not current_user.is_authenticated %}
                     <span class="user teal-text">
                         <i class="material-icons">perm_identity</i>
                         <em>{{ note.user.getDisplayName() }}</em>
                     </span>
-                    <a href class="favor teal-text">
+                    <!--<a href class="favor teal-text">
                         <i class="material-icons">thumb_up</i>
                         <em>10</em>
-                    </a>
-                    {% endif %}
+                    </a>-->
 
-                    {% if current_user.is_authenticated %}
-                    <span class="teal-text">
-                        <i class="material-icons">public</i>
-                        {% if note.public %}public{% else %}private{% endif %}
-                    </span>
-                    {% endif %}
                     <!--login-->
-                    {% if current_user.is_authenticated %}
+                    {% if current_user.is_authenticated and current_user.id == note.user_id %}
                     <a href="{{ url_for('note.edit', id=note.id) }}">
                         <i class="material-icons teal-text">edit</i>
                     </a>

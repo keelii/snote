@@ -47,9 +47,17 @@ class Note(db.Model, UserMixin):
         if not self.public:
             self.content = ec.decrypt(self.content).decode('utf-8')
 
+    def printInfo(self):
+        print '--'*30
+        print ' title | content | public '
+        print ' {0} | {1} | {2} '.format(self.title, self.content[:10], self.public)
+        print '--'*30
+
     def create(self):
         self.gen_time()
         self.encryptContent()
+
+        self.printInfo();
 
         try:
             db.session.add(self)
@@ -63,6 +71,8 @@ class Note(db.Model, UserMixin):
     def update(self):
         self.updated_at = datetime.now()
         self.encryptContent()
+
+        self.printInfo();
 
         try:
             db.session.add(self)

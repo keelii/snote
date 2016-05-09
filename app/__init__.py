@@ -18,6 +18,13 @@ def create_app(config_name):
     login_manager.init_app(app)
     db.init_app(app)
 
+
+    @app.teardown_request
+    def shutdown_session(exception=None):
+        print '----- DB Session Removed.-----'
+        db.session.remove()
+
+
     from .main import main as main_blueprint
     from .user import user as user_blueprint
     from .note import note as note_blueprint

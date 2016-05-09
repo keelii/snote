@@ -6,6 +6,16 @@ from flask.ext.login import current_user, login_required
 from form import CreateNoteForm, EditNoteForm
 from ..helper import getNoteUrl
 
+@NOTE.route('/notes')
+def show_public_notes():
+    notes = Note.query.filter_by(public=1).order_by(Note.created_at.desc())
+
+    for note in notes:
+        if not note.public:
+            note.decryptContent()
+
+    return render_template('index.html', title='home', notes=notes, isHome=True);
+
 @NOTE.route('/note/<int:id>')
 def show_note(id):
     note = Note.query.filter_by(id=id).first()
@@ -14,6 +24,20 @@ def show_note(id):
         return render_template('404.html', title='page not found')
 
     return render_template('detail.html', title=note.title, note=note, isDetail=True)
+
+@NOTE.route('/notes/<user>')
+@login_required
+def show_user_notes(user):
+    if user != current_user.nick_name:
+        return render_template('404.html', title='page not found')
+
+    notes = Note.query.filter_by(user_id=current_user.id).order_by(Note.created_at.desc())
+
+    for note in notes:
+        if not note.public:
+            note.decryptContent()
+
+    return render_template('index.html', title='home', notes=notes, isHome=True);
 
 @NOTE.route('/<user>/<int:id>')
 @login_required
