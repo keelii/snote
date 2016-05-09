@@ -1,3 +1,4 @@
+from flask import url_for
 from flask.ext.login import current_user
 
 # Helpers
@@ -12,4 +13,4 @@ class Helper():
     def init_app(app):
         @app.context_processor
         def utility_processor():
-            return dict(getNoteUrl=getNoteUrl)
+            return dict( getNoteUrl=getNoteUrl )

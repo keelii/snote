@@ -8,6 +8,7 @@ from ..models import Note
 from ..helper import getNoteUrl
 
 @NOTE.route('/notes', defaults={'page': 1})
+@NOTE.route('/page/<int:page>')
 def show_public_notes(page=1):
     pagination = Note.getIndexNotes().paginate(
         page=page,
@@ -18,18 +19,8 @@ def show_public_notes(page=1):
     return render_template('index.html', title='home', isHome=True,
         notes=pagination.items, pagination=pagination, page=page)
 
-@NOTE.route('/page/<int:page>')
-def show_page_note(page):
-    pagination = Note.getIndexNotes().paginate(
-        page=page,
-        per_page=current_app.config['NOTE_NUM_PER_PAGE'],
-        error_out=True
-    )
-
-    return render_template('index.html', title='home', isHome=True,
-        notes=pagination.items, pagination=pagination, page=page)
-
 @NOTE.route('/notes/<user>', defaults={'page': 1})
+@NOTE.route('/notes/<user>/page/<int:page>')
 @login_required
 def show_user_notes(user, page):
     if user != current_user.nick_name:
@@ -41,12 +32,11 @@ def show_user_notes(user, page):
         error_out=True
     )
 
-    print '-'*30
-    print dir(pagination.items.count)
     return render_template('index.html', title='home',
         isHome=True,
         isUserNote=True,
         notes=pagination.items, pagination=pagination, page=page);
+
 
 @NOTE.route('/note/<int:id>')
 def show_note(id):

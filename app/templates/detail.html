@@ -1,5 +1,7 @@
 {% extends 'layout/layout.html' %}
 
+{% block htmlclass %}note-body{% endblock %}
+
 {% block robots %}
     {% if not note.public %}
     <meta name="robots" content="noindex">
@@ -10,10 +12,8 @@
 
 <div class="container">
 
-    <div class="note-body">
-        <h3 class="green-text">{{ note.title }}</h3>
-        <div class="note-content">{{ note.content | safe }}</div>
-    </div>
+    <h3 class="green-text">{{ note.title }}</h3>
+    <div class="note-content">{{ note.content | safe }}</div>
 
 </div>
 

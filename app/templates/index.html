@@ -9,40 +9,6 @@
     <br>
 
     <div class="row">
-        <div class="col s12">
-            <div class="card-panel teal white-text">
-            {% if current_user.is_authenticated %}
-                Hi {{ current_user.nick_name }}!
-            {% endif %}
-            </div>
-        </div>
-    </div>
-
-    <nav class="nav">
-        <div class="nav-wrapper">
-            <div class="col s12">
-                <a href="{{ url_for('main.index') }}" class="breadcrumb">Home</a>
-                <a href="{{ url_for('note.show_public_notes') }}" class="breadcrumb">Notes</a>
-                <a href="{{ url_for('note.show_user_notes', user=current_user.nick_name) }}" class="breadcrumb">My Notes</a>
-                <a href="#!" class="breadcrumb">Current</a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="row">
-        <div class="col s3">
-            <div class="tab">
-                <ul class="tabs">
-                    <li class="tab col s3"><a href="{{ url_for('main.index') }}">大家的笔记</a></li>
-                    {% if current_user.is_authenticated %}
-                    <li class="tab col s3"><a href="{{ url_for('note.show_user_notes', user=current_user.nick_name) }}">我的笔记</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
         {% for note in notes %}
         <div class="col s4">
             <div class="note-card note-card-{{ number }} card">
@@ -50,7 +16,7 @@
                     <span class="card-title truncate">
                         <a class="green-text" title="{{ note.title }}" href="{{ getNoteUrl(note) }}">{{ note.title }}</a>
                     </span>
-                    <p class="desc">{{ note.content | truncate(length=500) | striptags }}</p>
+                    <p class="desc">{{ note.content | striptags | truncate(length=500) }}</p>
                 </div>
                 <div class="card-action white">
                     <span class="user teal-text">
@@ -84,7 +50,7 @@
         {% if isUserNote %}
         {{ render_pagination(pagination, 'note.show_user_notes', page, current_user.nick_name) }}
         {% else %}
-        {{ render_pagination(pagination, 'note.show_page_note', page, current_user.nick_name) }}
+        {{ render_pagination(pagination, 'note.show_public_notes', page) }}
         {% endif %}
     </div>
 </div>

@@ -12,7 +12,7 @@ class Config:
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
     # Note
-    NOTE_NUM_PER_PAGE = 3
+    NOTE_NUM_PER_PAGE = 12
 
     @staticmethod
     def init_app(app):
