@@ -12,7 +12,7 @@
     {% include 'inc/resource_simditor.html' %}
 
     <link rel="stylesheet" href="{{ url_for('static', filename='main/css/main.css') }}">
-
+    {% block editor_script %}{% endblock %}
 </head>
 <body>
 

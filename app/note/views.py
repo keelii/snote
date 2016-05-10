@@ -37,6 +37,25 @@ def show_user_notes(user, page):
         isUserNote=True,
         notes=pagination.items, pagination=pagination, page=page);
 
+@NOTE.route('/search')
+def show_search_notes():
+    page = int(request.args.get('page') or 1)
+    keyword = request.args.get('keyword')
+
+    if not keyword:
+        return render_template('404.html', title='page not found')
+
+    pagination = Note.getSearchNotes(keyword).paginate(
+        page=page,
+        per_page=3,
+        error_out=True
+    )
+
+    return render_template('index.html', title='search',
+        isHome=True,
+        isSearch=True,
+        keyword=keyword,
+        notes=pagination.items, pagination=pagination, page=page);
 
 @NOTE.route('/note/<int:id>')
 def show_note(id):

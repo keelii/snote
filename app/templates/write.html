@@ -1,6 +1,12 @@
 {% extends 'layout/layout.html' %}
 {% from 'macro/main.html' import get_flash_message_html, render_field %}
 
+{% block editor_script %}
+<script src="{{ url_for('static', filename='simditor/scripts/module.js') }}"></script>
+<script src="{{ url_for('static', filename='simditor/scripts/hotkeys.js') }}"></script>
+<script src="{{ url_for('static', filename='simditor/scripts/uploader.js') }}"></script>
+<script src="{{ url_for('static', filename='simditor/scripts/simditor.js') }}"></script>
+{% endblock %}
 {% block body %}
 
 {% include 'inc/header.html' %}
@@ -30,6 +36,14 @@
             <div class="col s12">
                 {{ render_field(form.content) }}
             </div>
+            <script>
+                var toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'];
+                var editor = new Simditor({
+                    toolbar: toolbar,
+                    // upload: '/upload',
+                    textarea: $('#editor')
+                });
+            </script>
         </div>
         <div class="row">
             <div class="input-field" style="margin-top:0;margin-bottom:1rem">
@@ -46,18 +60,6 @@
 
 </div>
 
-<script src="{{ url_for('static', filename='simditor/scripts/module.js') }}"></script>
-<script src="{{ url_for('static', filename='simditor/scripts/hotkeys.js') }}"></script>
-<script src="{{ url_for('static', filename='simditor/scripts/uploader.js') }}"></script>
-<script src="{{ url_for('static', filename='simditor/scripts/simditor.js') }}"></script>
-<script>
-    var toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'];
-    var editor = new Simditor({
-        toolbar: toolbar,
-        // upload: '/upload',
-        textarea: $('#editor')
-    });
-</script>
 
 {% include 'inc/menu.html' %}
 

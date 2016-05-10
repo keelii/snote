@@ -9,6 +9,25 @@
 body {
     color:#666;
 }
+#global-nav .input-field input[type=text] {
+    width: 150px;
+    border: none;
+    border-bottom: 1px solid #ef9a9a;
+    color:#fff;
+}
+.pagination li {
+    padding: 0;
+}
+.pagination li a {
+    display: block;
+    padding: 0 10px
+}
+.search-input {
+    width: 210px;
+}
+.search-input a {
+    width: 50px;
+}
 .nav .nav-wrapper {
     padding-left: 20px;
 }

@@ -59,6 +59,17 @@ class Note(db.Model, UserMixin):
         return notes
 
     @staticmethod
+    def getSearchNotes(keyword):
+        pattern = u'%{0}%'.format(keyword)
+        notes = Note.query.filter_by(public=1).filter(Note.title.like(pattern)).order_by(Note.created_at.desc())
+
+        for note in notes:
+            if not note.public:
+                note.decryptContent()
+
+        return notes
+
+    @staticmethod
     def getUserNotes(user_id):
         notes = Note.query.filter_by(user_id=user_id).order_by(Note.created_at.desc())
 

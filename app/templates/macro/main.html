@@ -27,13 +27,16 @@
     {% endif %}
 {%- endmacro %}
 
-{% macro render_pagination(pagination, endpoint, curr_page, user) -%}
-    {% if not user %}
-        {% set prev_page_url = url_for(endpoint, page=curr_page-1) %}
-        {% set next_page_url = url_for(endpoint, page=curr_page+1) %}
+{% macro render_pagination(pagination, endpoint, page, user, keyword) -%}
+    {% if user %}
+        {% set prev_page_url = url_for(endpoint, user=user, page=page-1) %}
+        {% set next_page_url = url_for(endpoint, user=user, page=page+1) %}
+    {% elif keyword %}
+        {% set prev_page_url = url_for(endpoint, keyword=keyword, page=page-1) %}
+        {% set next_page_url = url_for(endpoint, keyword=keyword, page=page+1) %}
     {% else %}
-        {% set prev_page_url = url_for(endpoint, user=user, page=curr_page-1) %}
-        {% set next_page_url = url_for(endpoint, user=user, page=curr_page+1) %}
+        {% set prev_page_url = url_for(endpoint, page=page-1) %}
+        {% set next_page_url = url_for(endpoint, page=page+1) %}
     {% endif %}
 
     <ul class="pagination" data-user="{{ not user }}">
@@ -45,10 +48,12 @@
 
     {%- for page in pagination.iter_pages() %}
         {% if page %}
-            {% if not user %}
-                {% set curr_page_url = url_for(endpoint, page=page) %}
-            {% else %}
+            {% if user %}
                 {% set curr_page_url = url_for(endpoint, user=user, page=page) %}
+            {% elif keyword %}
+                {% set curr_page_url = url_for(endpoint, keyword=keyword, page=page) %}
+            {% else %}
+                {% set curr_page_url = url_for(endpoint, page=page) %}
             {% endif %}
 
             <li class="waves-effect {% if page == pagination.page %} active{% endif %}">
