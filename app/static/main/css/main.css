@@ -65,6 +65,45 @@ body {
     vertical-align: middle;
 }
 
+ p code {
+    display:inline;
+    font-size:13px;
+    margin: 0 2px;
+    padding: 1px 5px;
+    border: 1px solid #eaeaea;
+    background-color: #f8f8f8;
+    border-radius:2px;
+}
+ code,  pre {
+    display:block;
+    font-size:12px;
+    color:#000;
+    white-space: pre;
+    font-family: Monaco, Consolas, "Lucida Console", monospace;
+    background:#fafafa;
+    padding:5px 1em;
+    border:1px solid #eee;
+    border-radius:5px;
+}
+ pre {
+   margin-bottom:1.5em;
+}
+ pre code {
+    border:none;
+}
+
+.meta-info {
+    color: #999;
+}
+.meta-info .material-icons {
+    font-size: 20px;
+}
+.meta-info span {
+    display:inline-block;
+    height: 24px;
+    line-height: 24px;
+}
+
 /* type */
 .note-body body {
   font: 14px/160% "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;

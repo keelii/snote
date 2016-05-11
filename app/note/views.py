@@ -1,11 +1,57 @@
 # -*- coding: utf-8 -*-
-from flask import request, render_template, url_for, flash, abort, redirect, current_app
+import os
+from datetime import datetime
+from flask import request, render_template, url_for, flash, abort, redirect, current_app, jsonify
 from flask.ext.login import current_user, login_required
 from flask.ext.sqlalchemy import Pagination
+from werkzeug import secure_filename
 from form import CreateNoteForm, EditNoteForm
 from . import note as NOTE
-from ..models import Note
+from ..models import Note, User
 from ..helper import getNoteUrl
+from ..upload import Upload
+
+@NOTE.route('/upload', methods=['POST'])
+def upload_image():
+    success = False
+    msg = u'上传出错'
+    file_path = ''
+    filename_prefix = 'note___{0}___{1}'.format(current_user.id, datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
+
+    ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+    tmp_dir = current_app.config['TMP_DIR']
+    max_size = current_app.config['MAX_CONTENT_LENGTH']
+
+    def allowed_file(filename):
+        return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+    if request.method == 'POST':
+        file = request.files['file']
+        if not file:
+            success = False
+            msg = u'空文件'
+        if not allowed_file(file.filename):
+            success = False
+            msg = u'文件格式不支持'
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            abs_file_name = os.path.join(tmp_dir, filename_prefix + str('___') + filename)
+
+            file.save(abs_file_name)
+            size = os.stat(abs_file_name).st_size
+            print '>>>' + size
+            if size > max_size:
+                success = false
+                msg = u'文件太大，不能超过2M'
+            else:
+                success = True
+                msg = u'文件上传成功'
+
+
+    result = dict(success=success, msg=msg, file_path=file_path)
+
+    return jsonify(result)
 
 @NOTE.route('/notes', defaults={'page': 1})
 @NOTE.route('/page/<int:page>')
@@ -47,7 +93,7 @@ def show_search_notes():
 
     pagination = Note.getSearchNotes(keyword).paginate(
         page=page,
-        per_page=3,
+        per_page=current_app.config['NOTE_NUM_PER_PAGE'],
         error_out=True
     )
 
@@ -64,7 +110,15 @@ def show_note(id):
     if note == None:
         return render_template('404.html', title='page not found')
 
-    return render_template('detail.html', title=note.title, note=note, isDetail=True)
+    user = User.query.filter_by(id=note.user_id).first()
+
+    print '-' * 30
+    print user.nick_name
+
+    return render_template('detail.html', title=note.title,
+        user=user,
+        note=note,
+        isDetail=True)
 
 @NOTE.route('/<user>/<int:id>')
 @login_required
