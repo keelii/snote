@@ -13,6 +13,7 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or '1234567890abcdef'
 
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     # Note
     NOTE_NUM_PER_PAGE = 12
@@ -26,6 +27,7 @@ class Config:
     def init_app(app):
         # maximum allowed 2 megabytes
         app.config['MAX_CONTENT_LENGTH'] = Config.MAX_CONTENT_LENGTH
+        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = Config.SQLALCHEMY_TRACK_MODIFICATIONS
 
 class DevelopmentConfig(Config):
     DEBUG = True
