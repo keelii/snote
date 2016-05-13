@@ -1,14 +1,17 @@
+from flask import current_app
 from qiniu import Auth, put_file, etag, urlsafe_base64_encode
 import qiniu.config
 
 class Upload():
-    access_key = 'QoaeymVy9SxXAUdHx3yu5SvPv8YpLo-fIscAUFYa'
-    secret_key = 'LPGQZxANjAokEJ4vOAinLFy0EkPeU5pxinPUyr27'
-    bucket_name = 'keelii'
+    access_key = current_app.config['QN_ACCESS_KEY']
+    secret_key = current_app.config['QN_SECRET_KEY']
+    bucket_name = current_app.config['QN_BUCKET_NAME']
 
     def __init__(self, filename, local_file):
         self.filename = filename
         self.local_file = local_file
+
+        self.getToken()
 
     def getToken(self):
         q = Auth(Upload.access_key, Upload.secret_key)
@@ -16,7 +19,7 @@ class Upload():
 
         return self.token
 
-    def set_file(self):
+    def send_file(self):
         ret, info = put_file(self.token, self.filename, self.local_file)
 
         if info.status_code == 200 and not info.exception:

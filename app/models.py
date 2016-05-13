@@ -83,7 +83,7 @@ class Note(db.Model, UserMixin):
         self.gen_time()
         self.encryptContent()
 
-        self.printInfo();
+        # self.printInfo();
 
         try:
             db.session.add(self)
@@ -98,7 +98,7 @@ class Note(db.Model, UserMixin):
         self.updated_at = datetime.now()
         self.encryptContent()
 
-        self.printInfo();
+        # self.printInfo();
 
         try:
             db.session.add(self)

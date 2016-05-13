@@ -21,12 +21,14 @@ def upload_image():
     ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
     tmp_dir = current_app.config['TMP_DIR']
     max_size = current_app.config['MAX_CONTENT_LENGTH']
+    qiniu_domain = current_app.config['QINIU_DOMAIN']
 
     def allowed_file(filename):
         return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
     if request.method == 'POST':
         file = request.files['file']
+
         if not file:
             success = False
             msg = u'空文件'
@@ -36,18 +38,26 @@ def upload_image():
 
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            abs_file_name = os.path.join(tmp_dir, filename_prefix + str('___') + filename)
+            realname = filename_prefix + str('___') + filename
+            abs_file_name = os.path.join(tmp_dir, realname)
 
             file.save(abs_file_name)
             size = os.stat(abs_file_name).st_size
-            print '>>>' + size
+
             if size > max_size:
                 success = false
                 msg = u'文件太大，不能超过2M'
             else:
-                success = True
-                msg = u'文件上传成功'
+                uploader = Upload(realname, abs_file_name)
+                upload_result = uploader.send_file()
 
+                if upload_result:
+                    success = True
+                    msg = u'文件上传成功'
+                    file_path = qiniu_domain + realname
+                else:
+                    success = False
+                    msg = u'文件上传 cdn 失败'
 
     result = dict(success=success, msg=msg, file_path=file_path)
 

@@ -27,43 +27,24 @@
     {% endif %}
 {%- endmacro %}
 
-{% macro render_pagination(pagination, endpoint, page, user, keyword) -%}
-    {% if user %}
-        {% set prev_page_url = url_for(endpoint, user=user, page=page-1) %}
-        {% set next_page_url = url_for(endpoint, user=user, page=page+1) %}
-    {% elif keyword %}
-        {% set prev_page_url = url_for(endpoint, keyword=keyword, page=page-1) %}
-        {% set next_page_url = url_for(endpoint, keyword=keyword, page=page+1) %}
-    {% else %}
-        {% set prev_page_url = url_for(endpoint, page=page-1) %}
-        {% set next_page_url = url_for(endpoint, page=page+1) %}
-    {% endif %}
-
+{% macro render_pagination(pagination, endpoint) -%}
     <ul class="pagination" data-user="{{ not user }}">
     {% if pagination.has_prev %}
-    <li><a href="{{ prev_page_url }}"><i class="material-icons">chevron_left</i></a></li>
+    <li><a href="{{ url_for(endpoint, page=pagination.page-1, **kwargs) }}"><i class="material-icons">chevron_left</i></a></li>
     {% else %}
     <li class="disabled"><a href="javascript:;"><i class="material-icons">chevron_left</i></a></li>
     {% endif %}
 
     {%- for page in pagination.iter_pages() %}
         {% if page %}
-            {% if user %}
-                {% set curr_page_url = url_for(endpoint, user=user, page=page) %}
-            {% elif keyword %}
-                {% set curr_page_url = url_for(endpoint, keyword=keyword, page=page) %}
-            {% else %}
-                {% set curr_page_url = url_for(endpoint, page=page) %}
-            {% endif %}
-
-            <li class="waves-effect {% if page == pagination.page %} active{% endif %}">
-                <a href="{{ curr_page_url }}">{{ page }}</a>
-            </li>
+        <li class="waves-effect {% if page == pagination.page %} active{% endif %}">
+            <a href="{{ url_for(endpoint, page=page, **kwargs) }}">{{ page }}</a>
+        </li>
         {% endif %}
     {%- endfor %}
 
     {% if pagination.has_next %}
-    <li><a href="{{ next_page_url }}"><i class="material-icons">chevron_right</i></a></li>
+    <li><a href="{{ url_for(endpoint, page=pagination.page+1, **kwargs) }}"><i class="material-icons">chevron_right</i></a></li>
     {% else %}
     <li class="disabled"><a href="javascript:;"><i class="material-icons">chevron_right</i></a></li>
     {% endif %}

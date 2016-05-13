@@ -47,11 +47,11 @@
 <div class="row">
     <div class="col s12 center">
         {% if isSearch %}
-        {{ render_pagination(pagination, 'note.show_search_notes', page=page, keyword=keyword) }}
+        {{ render_pagination(pagination, 'note.show_search_notes', keyword=keyword) }}
         {% elif isUserNote %}
-        {{ render_pagination(pagination, 'note.show_user_notes', page=page, user=current_user.nick_name) }}
+        {{ render_pagination(pagination, 'note.show_user_notes', user=current_user.nick_name) }}
         {% else %}
-        {{ render_pagination(pagination, 'note.show_public_notes', page=page) }}
+        {{ render_pagination(pagination, 'note.show_public_notes') }}
         {% endif %}
     </div>
 </div>
