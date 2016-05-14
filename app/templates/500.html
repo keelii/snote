@@ -1,0 +1,13 @@
+{% extends 'layout/layout.html' %}
+
+{% block body %}
+{% include 'inc/header.html' %}
+
+<div class="container">
+
+    <h3>Internal Server Error.</h3>
+    <p>Return to <a href="{{ url_for('main.index') }}">home</a> page.</p>
+
+</div>
+
+{% endblock %}

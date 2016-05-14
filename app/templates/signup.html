@@ -1,0 +1,57 @@
+{% extends 'layout/layout.html' %}
+{% from 'macro/main.html' import get_flash_message_html, render_field %}
+
+{% block body %}
+{% include 'inc/header.html' %}
+
+<div class="container">
+    <br>
+
+    <div class="row">
+        <form class="col s6 push-s3" action="{{ url_for('user.signup') }}" method="post">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="row">
+                {% for category, message in messages %}
+                <div class="col s12 valign-wrapper white-text">
+                    {{ get_flash_message_html(category, message) }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <div class="row">
+                <div class="input-field col s12">
+                    {{ render_field(form.email) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    {{ render_field(form.nick_name) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    {{ render_field(form.password) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    {{ render_field(form.confirm) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <button type="submit" class="waves-effect waves-light btn">Sign up</button>
+                    &#x3000;have an account? <a href="{{ url_for('user.login') }}">Log in</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% include 'inc/menu.html' %}

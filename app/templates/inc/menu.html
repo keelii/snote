@@ -1,0 +1,47 @@
+<div class="fixed-action-btn horizontal" style="bottom: 45px; right: 24px;">
+    <div id="back-top-floating" style="display:none">
+        <a class="btn-floating btn-large red" title="back to top" href="javascript:;">
+            <i class="material-icons">arrow_upward</i>
+        </a>
+    </div>
+
+    <div id="main-floating">
+    {% if isHome %}
+        <a class="btn-floating btn-large red" href="{{ url_for('note.write') }}">
+            <i class="material-icons">add</i>
+        </a>
+    {% else %}
+        {% if isDetail and current_user.is_authenticated and current_user.id == user.id %}
+        <a class="btn-floating btn-large red" href="{{ url_for('note.edit', id=note.id) }}">
+            <i class="material-icons">edit</i>
+        </a>
+        {% elif isEdit %}
+        <a class="btn-floating btn-large red" href="{{ url_for('main.index') }}">
+            <i class="material-icons">home</i>
+        </a>
+        {% else %}
+        <a class="btn-floating btn-large red">
+            <i class="material-icons">menu</i>
+        </a>
+        {% endif %}
+    {% endif %}
+    </div>
+
+    <ul>
+        <li><a href="{{ url_for('main.index') }}" class="btn-floating"><i class="material-icons">home</i></a></li>
+
+        {% if not current_user.is_authenticated %}
+        <li><a href="{{ url_for('user.login') }}" title="Login" class="btn-floating green"><i class="material-icons">account_circle</i></a></li>
+        <li><a href="{{ url_for('user.signup') }}" title="Signup" class="btn-floating green"><i class="material-icons">person_add</i></a></li>
+        {% endif %}
+
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('note.write') }}" href="" class="btn-floating green"><i class="material-icons">add</i></a></li>
+        {% if isDetail and current_user.is_authenticated %}
+        <li><a href="{{ url_for('note.edit', id=note.id) }}" class="btn-floating teal"><i class="material-icons">edit</i></a></li>
+        <li><a href="{{ url_for('note.delete', id=note.id) }}" class="btn-floating red"><i class="material-icons">delete</i></a></li>
+        {% endif %}
+        <li><a href="/logout" class="btn-floating blue"><i class="material-icons">exit_to_app</i></a></li>
+        {% endif %}
+    </ul>
+</div>

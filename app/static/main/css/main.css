@@ -1,0 +1,199 @@
+.header {
+    height: 350px;
+    padding: 100px 0;
+    background:url(../images/bg.jpg) center center no-repeat;
+}
+.container {
+    margin-bottom: 50px;
+}
+body {
+    color:#666;
+}
+#global-nav .input-field input[type=text] {
+    width: 150px;
+    border: none;
+    border-bottom: 1px solid #ef9a9a;
+    color:#fff;
+}
+.pagination li {
+    padding: 0;
+}
+.pagination li a {
+    display: block;
+    padding: 0 10px
+}
+.search-input {
+    width: 210px;
+}
+.search-input a {
+    width: 50px;
+}
+.nav .nav-wrapper {
+    padding-left: 20px;
+}
+.tab {
+    padding: 10px 0;
+}
+.material-icons {
+    vertical-align: middle;
+}
+.fixed-action-btn .material-icons {
+    vertical-align: top;
+}
+.note-card .desc {
+    height: 4.2em;
+    overflow: hidden;
+}
+.note-card .card-action span {
+    margin-right: 1em;
+}
+.note-card .card-action em {
+    font-style: normal;
+}
+.note-card .material-icons {
+    font-size: 20px;
+}
+
+.flash-message {
+    padding: 1em;
+    width: 100%;
+}
+.error-message {
+    padding: 1em;
+}
+.error-message .material-icons {
+    vertical-align: middle;
+}
+
+ p code {
+    display:inline;
+    font-size:13px;
+    margin: 0 2px;
+    padding: 1px 5px;
+    border: 1px solid #eaeaea;
+    background-color: #f8f8f8;
+    border-radius:2px;
+}
+ code,  pre {
+    display:block;
+    font-size:12px;
+    color:#000;
+    white-space: pre;
+    font-family: Monaco, Consolas, "Lucida Console", monospace;
+    background:#fafafa;
+    padding:5px 1em;
+    border:1px solid #eee;
+    border-radius:5px;
+}
+ pre {
+   margin-bottom:1.5em;
+}
+ pre code {
+    border:none;
+}
+
+.meta-info {
+    color: #999;
+}
+.meta-info .material-icons {
+    font-size: 20px;
+}
+.meta-info span {
+    display:inline-block;
+    height: 24px;
+    line-height: 24px;
+}
+
+/* type */
+.note-body body {
+  font: 14px/160% "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
+  color:#666;
+}
+
+/* Typography */
+.note-body a {
+  color: #690;
+  text-decoration:none;
+}
+.note-body a:hover {
+    text-decoration: underline;
+}
+
+.note-body h1, .note-body h2, .note-body h3, .note-body h4, .note-body h5, .note-body h6 {
+    color:#000;
+    font-weight:normal;
+    line-height:100%;
+    margin-bottom:2em;
+}
+.note-body h2 {
+    font-size:22px;
+}
+.note-body h3 {
+    font-size:20px;
+}
+.note-body h4 {
+    font-size:18px;
+}
+.note-body h5 {
+    font-size:16px;
+}
+.note-body h6 {
+    font-size:14px;
+    font-weight:bold;
+}
+
+.note-body ul, .note-body ol {
+    margin-bottom:1.5em;
+    padding-left:1.5em;
+}
+.note-body strong {
+    font-weight:bold;
+}
+.note-body em {
+    font-style:italic;
+    padding:0 2px;
+}
+.note-body p {
+    color:#666;
+    margin-bottom:1.5em;
+}
+.note-body p code {
+    display:inline;
+    font-size:13px;
+    margin: 0 2px;
+    padding: 1px 5px;
+    border: 1px solid #eaeaea;
+    background-color: #f8f8f8;
+    border-radius:2px;
+}
+.note-body code, .note-body pre {
+    display:block;
+    font-size:12px;
+    color:#000;
+    white-space: pre;
+    font-family: Monaco, Consolas, "Lucida Console", monospace;
+    background:#fafafa;
+    padding:5px 1em;
+    border:1px solid #eee;
+    border-radius:5px;
+}
+.note-body pre {
+   margin-bottom:1.5em;
+}
+.note-body pre code {
+    border:none;
+}
+.note-body blockquote {
+    display:block;
+    padding:0 0 0 1em;
+    margin:0;
+    border-left:1px solid #bbb;
+    color:#999;
+    margin-bottom:1.5em;
+}
+.note-body blockquote p {
+    color:#999;
+}
+.note-body abbr {
+    border-bottom:1px dotted #bbb;
+}

@@ -1,0 +1,68 @@
+{% extends 'layout/layout.html' %}
+{% from 'macro/main.html' import get_flash_message_html, render_field %}
+
+{% block editor_script %}
+<script src="{{ url_for('static', filename='simditor/scripts/module.js') }}"></script>
+<script src="{{ url_for('static', filename='simditor/scripts/hotkeys.js') }}"></script>
+<script src="{{ url_for('static', filename='simditor/scripts/uploader.js') }}"></script>
+<script src="{{ url_for('static', filename='simditor/scripts/simditor.js') }}"></script>
+{% endblock %}
+{% block body %}
+
+{% include 'inc/header.html' %}
+
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <br>
+    <div class="row">
+        {% for category, message in messages %}
+        <div class="col s12 valign-wrapper white-text">
+            {{ get_flash_message_html(category, message) }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <h3 class="green-text">Write one</h3>
+    <form action="{% if not note %}{{ url_for('note.write') }}{% else %}{{ url_for('note.edit', id=note.id) }}{% endif %}" method="post">
+
+        <div class="row">
+            <div class="input-field col s12">
+                {{ render_field(form.title) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                {{ render_field(form.content) }}
+            </div>
+            <script>
+                var toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'];
+                var editor = new Simditor({
+                    toolbar: toolbar,
+                    upload: {
+                        url: '/upload'
+                    },
+                    textarea: $('#editor')
+                });
+            </script>
+        </div>
+        <div class="row">
+            <div class="input-field" style="margin-top:0;margin-bottom:1rem">
+                <span title="Others can view.">{{ render_field(form.public) }}</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <button type="submit" class="waves-effect waves-light btn">Save</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+{% include 'inc/menu.html' %}
+
+{% endblock %}

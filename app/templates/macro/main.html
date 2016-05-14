@@ -1,0 +1,52 @@
+{% macro render_field(field) %}
+    {{ field(**kwargs)|safe }}
+    {{ field.label }}
+
+    {% if field.errors %}
+    <ul class="errors red-text">
+        {% for error in field.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endmacro %}
+
+{% macro get_flash_message_html(type, msg) -%}
+    {% if type == 'success' %}
+    <div class="flash-message green">
+        <i class="material-icons">done</i> {{ msg | safe }}
+    </div>
+    {% elif type == 'warning' %}
+    <div class="flash-message lime">
+        <i class="material-icons">warning</i> {{ msg | safe }}
+    </div>
+    {% else %}
+    <div class="flash-message red">
+        <i class="material-icons">error</i> {{ msg | safe }}
+    </div>
+    {% endif %}
+{%- endmacro %}
+
+{% macro render_pagination(pagination, endpoint) -%}
+    <ul class="pagination" data-user="{{ not user }}">
+    {% if pagination.has_prev %}
+    <li><a href="{{ url_for(endpoint, page=pagination.page-1, **kwargs) }}"><i class="material-icons">chevron_left</i></a></li>
+    {% else %}
+    <li class="disabled"><a href="javascript:;"><i class="material-icons">chevron_left</i></a></li>
+    {% endif %}
+
+    {%- for page in pagination.iter_pages() %}
+        {% if page %}
+        <li class="waves-effect {% if page == pagination.page %} active{% endif %}">
+            <a href="{{ url_for(endpoint, page=page, **kwargs) }}">{{ page }}</a>
+        </li>
+        {% endif %}
+    {%- endfor %}
+
+    {% if pagination.has_next %}
+    <li><a href="{{ url_for(endpoint, page=pagination.page+1, **kwargs) }}"><i class="material-icons">chevron_right</i></a></li>
+    {% else %}
+    <li class="disabled"><a href="javascript:;"><i class="material-icons">chevron_right</i></a></li>
+    {% endif %}
+    </ul>
+{%- endmacro %}

@@ -1,0 +1,51 @@
+<!--<div class="header teal lighten-3">
+
+    <div class="container">
+        <h1 class="white-text">Simple Note</h1>
+    </div>
+
+</div>-->
+<nav id="global-nav">
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="nav-wrapper">
+                    <a href="{{ url_for('main.index') }}" class="brand-logo">Simple Note</a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li>
+                            <div class="col s3 input-field">
+                                <form id="search-form" action="{{ url_for('note.show_search_notes') }}" method="get">
+                                    <input {% if keyword %}value="{{ keyword }}"{% endif %} class="white-text" id="keyword" name="keyword" type="text">
+                                </form>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="javascript:;" onclick="document.getElementById('search-form').submit();"> <i class="material-icons">search</i> </a>
+                        </li>
+                    {% if isHome %}
+                        <li> <a href="{{ url_for('note.write') }}"><i class="material-icons">add</i></a> </li>
+                    {% else %}
+                        {% if current_user.is_authenticated and isDetail %}
+                        <li> <a href="{{ url_for('note.edit', id=note.id) }}"> <i class="material-icons">edit</i> </a> </li>
+                        {% elif isEdit %}
+                        <li> <a href="{{ url_for('main.index') }}"> <i class="material-icons">home</i> </a> </li>
+                        {% else %}
+                        <!--<li> <a> <i class="material-icons">menu</i> </a> </li>-->
+                        {% endif %}
+                    {% endif %}
+
+                    {% if not current_user.is_authenticated %}
+                    <li><a href="{{ url_for('user.login') }}" title="Login">Login</a></li>
+                    <li><a href="{{ url_for('user.signup') }}" title="Signup">Signup</a></li>
+                    {% else %}
+                    <li><a href="{{ url_for('note.show_user_notes', user=current_user.nick_name) }}" title="My Note">My Note</a></li>
+                    <li><a href="{{ url_for('user.logout') }}" title="Hi, {{ current_user.nick_name }}. Click to exit"><i class="material-icons">account_circle</i></a></li>
+                    {% endif %}
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</nav>

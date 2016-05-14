@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" class="{% block htmlclass %}{% endblock %}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title | title }} - simple note</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    {% block robots %}{% endblock %}
+    <script type="text/javascript" src="{{ url_for('static', filename='simditor/scripts/jquery.min.js') }}"></script>
+
+    {% include 'inc/resource_materialize.html' %}
+    {% include 'inc/resource_simditor.html' %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='main/css/main.css') }}">
+    {% block editor_script %}{% endblock %}
+</head>
+<body>
+
+{% block body %}
+{% endblock %}
+
+{% block main_script %}
+<script src="{{ url_for('static', filename='materialize/js/materialize.min.js') }}"></script>
+<script src="{{ url_for('static', filename='main/js/main.js') }}"></script>
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% extends 'layout/layout.html' %}
+{% from 'macro/main.html' import render_pagination %}
+
+{% block body %}
+
+{% include 'inc/header.html' %}
+
+<div class="container">
+    <br>
+
+    <div class="row">
+        {% for note in notes %}
+        <div class="col s4">
+            <div class="note-card note-card-{{ number }} card">
+                <div class="card-content">
+                    <span class="card-title truncate">
+                        <a class="green-text" title="{{ note.title }}" href="{{ getNoteUrl(note) }}">{{ note.title }}</a>
+                    </span>
+                    <p class="desc">{{ note.content | striptags | truncate(length=500) }}</p>
+                </div>
+                <div class="card-action white">
+                    <span class="user teal-text">
+                        <i class="material-icons">perm_identity</i>
+                        <em>{{ note.user.getDisplayName() }}</em>
+                    </span>
+                    <!--<a href class="favor teal-text">
+                        <i class="material-icons">thumb_up</i>
+                        <em>10</em>
+                    </a>-->
+
+                    <!--login-->
+                    {% if current_user.is_authenticated and current_user.id == note.user_id %}
+                    <a href="{{ url_for('note.edit', id=note.id) }}">
+                        <i class="material-icons teal-text">edit</i>
+                    </a>
+                    <a href="{{ url_for('note.delete', id=note.id) }}">
+                        <i class="material-icons teal-text">delete</i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12 center">
+        {% if isSearch %}
+        {{ render_pagination(pagination, 'note.show_search_notes', keyword=keyword) }}
+        {% elif isUserNote %}
+        {{ render_pagination(pagination, 'note.show_user_notes', user=current_user.nick_name) }}
+        {% else %}
+        {{ render_pagination(pagination, 'note.show_public_notes') }}
+        {% endif %}
+    </div>
+</div>
+
+
+{% include 'inc/menu.html' %}
+
+{% endblock %}
