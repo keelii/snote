@@ -1,3 +1,4 @@
+import os, glob
 from flask import url_for
 from flask.ext.login import current_user
 
@@ -7,6 +8,12 @@ def getNoteUrl(note):
         return '/note/{0}'.format(note.id)
     else:
         return '/{0}/{1}'.format(current_user.nick_name, note.id)
+
+def emptyDir(dir):
+    files = glob.glob(os.path.join(dir, '*'))
+    for f in files:
+        print f
+        os.remove(f)
 
 class Helper():
     @staticmethod

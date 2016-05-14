@@ -3,3 +3,5 @@
 .vscode/
 *.pyc
 .tmp/*
+config/production.py
+db/snote.db

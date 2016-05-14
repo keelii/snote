@@ -11,7 +11,7 @@
             <i class="material-icons">add</i>
         </a>
     {% else %}
-        {% if current_user.is_authenticated and isDetail %}
+        {% if isDetail and current_user.is_authenticated and current_user.id == user.id %}
         <a class="btn-floating btn-large red" href="{{ url_for('note.edit', id=note.id) }}">
             <i class="material-icons">edit</i>
         </a>

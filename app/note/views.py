@@ -8,7 +8,7 @@ from werkzeug import secure_filename
 from form import CreateNoteForm, EditNoteForm
 from . import note as NOTE
 from ..models import Note, User
-from ..helper import getNoteUrl
+from ..helper import getNoteUrl, emptyDir
 from ..upload import Upload
 
 @NOTE.route('/upload', methods=['POST'])
@@ -48,8 +48,12 @@ def upload_image():
                 success = false
                 msg = u'文件太大，不能超过2M'
             else:
-                uploader = Upload(realname, abs_file_name)
-                upload_result = uploader.send_file()
+                uploader = Upload(
+                    current_app.config['QN_ACCESS_KEY'],
+                    current_app.config['QN_SECRET_KEY'],
+                    current_app.config['QN_BUCKET_NAME']
+                )
+                upload_result = uploader.send_file(realname, abs_file_name)
 
                 if upload_result:
                     success = True
@@ -57,8 +61,10 @@ def upload_image():
                     file_path = qiniu_domain + realname
                 else:
                     success = False
-                    msg = u'文件上传 cdn 失败'
+                    msg = u'文件上传 cdn 失败，请检查 access or secret key 是否正确配置'
 
+            # cleanup
+            emptyDir(tmp_dir)
     result = dict(success=success, msg=msg, file_path=file_path)
 
     return jsonify(result)

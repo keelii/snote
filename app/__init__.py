@@ -4,6 +4,7 @@ from flask.ext.login import LoginManager
 from flask.ext.sqlalchemy import SQLAlchemy
 from config import config
 from helper import Helper
+from upload import Upload
 
 login_manager = LoginManager()
 login_manager.login_view = 'user.login'
@@ -11,13 +12,17 @@ db = SQLAlchemy()
 
 def create_app(config_name):
     app = Flask(__name__)
+
+    print '-' * 30
+    print config_name
+    print '-' * 30
     app.config.from_object(config[config_name])
 
     # Configurations & Extensions
     config[config_name].init_app(app)
-    Helper.init_app(app)
     login_manager.init_app(app)
     db.init_app(app)
+    Helper.init_app(app)
 
     @app.teardown_request
     def shutdown_session(exception=None):
