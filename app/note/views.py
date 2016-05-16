@@ -128,9 +128,6 @@ def show_note(id):
 
     user = User.query.filter_by(id=note.user_id).first()
 
-    print '-' * 30
-    print user.nick_name
-
     return render_template('detail.html', title=note.title,
         user=user,
         note=note,
