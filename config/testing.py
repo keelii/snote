@@ -8,7 +8,7 @@ def getDatabasePath(name):
 def getTmpDir(dirname):
     return os.path.join(basedir, dirname)
 
-class TestingConfig:
+class Config:
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') \
         or getDatabasePath('snote-dev.db')

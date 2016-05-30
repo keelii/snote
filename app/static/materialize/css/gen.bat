@@ -1,0 +1,1 @@
+sass -t compressed materialize.scss materialize.min.css

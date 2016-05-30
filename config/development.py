@@ -8,7 +8,7 @@ def getDatabasePath(name):
 def getTmpDir(dirname):
     return os.path.join(basedir, os.path.pardir, dirname)
 
-class DevelopmentConfig:
+class Config:
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') \
         or getDatabasePath('snote-dev.db')
@@ -34,9 +34,5 @@ class DevelopmentConfig:
     @staticmethod
     def init_app(app):
         # maximum allowed 2 megabytes
-        app.config['MAX_CONTENT_LENGTH'] = DevelopmentConfig.MAX_CONTENT_LENGTH
-        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = DevelopmentConfig.SQLALCHEMY_TRACK_MODIFICATIONS
-
-        # prepare tmp directory
-        if not os.path.isdir(DevelopmentConfig.TMP_DIR):
-            os.mkdir(DevelopmentConfig.TMP_DIR)
+        app.config['MAX_CONTENT_LENGTH'] = Config.MAX_CONTENT_LENGTH
+        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = Config.SQLALCHEMY_TRACK_MODIFICATIONS

@@ -61,6 +61,7 @@ def signup():
         result = user.create()
 
         showMessage(result)
+        login_user(user, remember=True)
 
     return render_template('signup.html', title='signup', form=form)
 

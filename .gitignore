@@ -5,3 +5,4 @@
 .tmp/*
 config/production.py
 db/snote.db
+.sass-cache
