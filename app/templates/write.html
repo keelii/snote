@@ -2,10 +2,22 @@
 {% from 'macro/main.html' import get_flash_message_html, render_field %}
 
 {% block editor_script %}
+<style type="text/css">
+.simditor.simditor-html .simditor-wrapper > textarea {
+  display: block !important;
+}
+
+.simditor.simditor-html .simditor-body,
+.simditor.simditor-html .simditor-placeholder {
+  display: none;
+}
+</style>
 <script src="{{ url_for('static', filename='simditor/scripts/module.js') }}"></script>
 <script src="{{ url_for('static', filename='simditor/scripts/hotkeys.js') }}"></script>
 <script src="{{ url_for('static', filename='simditor/scripts/uploader.js') }}"></script>
 <script src="{{ url_for('static', filename='simditor/scripts/simditor.js') }}"></script>
+<script src="{{ url_for('static', filename='simditor/scripts/beautify-html.js') }}"></script>
+<script src="{{ url_for('static', filename='simditor/scripts/simditor-html.js') }}"></script>
 {% endblock %}
 {% block body %}
 
@@ -37,7 +49,12 @@
                 {{ render_field(form.content) }}
             </div>
             <script>
-                var toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'];
+                var toolbar = [
+                    'title', 'bold', 'italic', 'underline',
+                    'strikethrough', 'fontScale', 'color', '|',
+                    'ol', 'ul', 'blockquote', 'code', 'table', '|',
+                    'link', 'image', 'hr', '|',
+                    'alignment', 'html'];
                 var editor = new Simditor({
                     toolbar: toolbar,
                     upload: {

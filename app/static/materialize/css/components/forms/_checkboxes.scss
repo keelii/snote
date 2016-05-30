@@ -12,7 +12,7 @@ form p:last-child {
 }
 
 /* Remove default checkbox */
-.md-checkbox[type="checkbox"]:not(:checked),
+.input-field [type="checkbox"]:not(:checked),
 [type="checkbox"]:checked {
   position: absolute;
   left: -9999px;
@@ -20,7 +20,7 @@ form p:last-child {
 }
 
 // Checkbox Styles
-.md-checkbox[type="checkbox"] {
+.input-field [type="checkbox"] {
   // Text Label Style
   + label {
     position: relative;
@@ -73,7 +73,7 @@ form p:last-child {
   }
 }
 
-.md-checkbox[type="checkbox"]:checked {
+.input-field [type="checkbox"]:checked {
   + label:before {
     top: -4px;
     left: -5px;
@@ -95,7 +95,7 @@ form p:last-child {
 }
 
 /* Indeterminate checkbox */
-.md-checkbox[type="checkbox"]:indeterminate {
+.input-field [type="checkbox"]:indeterminate {
   +label:before {
     top: -11px;
     left: -12px;
@@ -118,7 +118,7 @@ form p:last-child {
 }
 
 // Filled in Style
-.md-checkbox[type="checkbox"].filled-in {
+.input-field [type="checkbox"].filled-in {
   // General
   + label:after {
     border-radius: 2px;
