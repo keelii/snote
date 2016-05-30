@@ -97,7 +97,7 @@ def show_user_notes(user, page):
     return render_template('index.html', title='home',
         isHome=True,
         isUserNote=True,
-        notes=pagination.items, pagination=pagination, page=page);
+        notes=pagination.items, pagination=pagination, page=page)
 
 @NOTE.route('/search')
 def show_search_notes():
@@ -143,7 +143,7 @@ def show_user_note(user, id):
     if user != current_user.nick_name or note == None:
         return render_template('404.html', title='page not found')
 
-    return render_template('detail.html', title=note.title, note=note, isDetail=True)
+    return render_template('detail.html', title=note.title, note=note, isDetail=True, user=current_user)
 
 @NOTE.route('/write', methods=['GET', 'POST'])
 @login_required

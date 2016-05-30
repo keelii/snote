@@ -5,7 +5,7 @@ from app.models import User, Note
 from flask.ext.script import Manager, Shell
 from install import install_app
 
-app = create_app(os.getenv('FLASK_CONFIG') or 'development')
+app = create_app(os.getenv('FLASK_CONFIG') or 'production')
 
 manager = Manager(app)
 

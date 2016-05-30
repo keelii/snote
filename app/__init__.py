@@ -11,7 +11,7 @@ login_manager.login_view = 'user.login'
 db = SQLAlchemy()
 
 def create_app(config_name):
-    app = Flask(__name__)
+    app = Flask(__name__, static_url_path='')
 
     app.config.from_object(config[config_name])
 
