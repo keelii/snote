@@ -3,8 +3,26 @@
     padding: 100px 0;
     background:url(../images/bg.jpg) center center no-repeat;
 }
+.footer span {
+    color:#4CAF50;
+}
+.footer a {
+    color: #ccc;
+}
+.footer a:hover {
+    color:#999;
+}
+.footer {
+    padding-top: 5px;
+    border-top:1px solid #ccc;
+    color:#ccc;
+    font-size: 12px;
+}
 .container {
     margin-bottom: 50px;
+}
+.note-body ul, .note-body ul li {
+    list-style-type: disc;
 }
 body {
     color:#666;
@@ -125,6 +143,9 @@ body {
     line-height:100%;
     margin-bottom:1em;
 }
+.note-body h1 {
+    font-size:24px;
+}
 .note-body h2 {
     font-size:22px;
 }
@@ -182,6 +203,7 @@ body {
 }
 .note-body pre code {
     border:none;
+    padding: 5px 0;
 }
 .note-body blockquote {
     display:block;
