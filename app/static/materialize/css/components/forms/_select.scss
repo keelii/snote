@@ -1,10 +1,10 @@
 /* Select Field
    ========================================================================== */
 
-select { display: none; }
+.input-field select { display: none; }
 select.browser-default { display: block; }
 
-select {
+.input-field select {
   background-color: $select-background;
   width: 100%;
   padding: $select-padding;
@@ -55,7 +55,7 @@ select {
 }
 
 // Disabled styles
-select:disabled {
+.input-field select:disabled {
   color: rgba(0,0,0,.3);
 }
 

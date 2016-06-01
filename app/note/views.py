@@ -206,6 +206,6 @@ def delete(id):
     result = note.delete()
 
     if result == 'success':
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     else:
         return render_template('500.html', title='delete note error')

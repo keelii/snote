@@ -21,7 +21,15 @@
     <div class="note-content">{{ note.content | safe }}</div>
 
 </div>
+<script src="{{ url_for('static', filename='main/js/highlight.pack.js') }}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 {% include 'inc/menu.html' %}
+
+<div class="container">
+    <div class="footer">
+        <a href="{{ url_for('main.index') }}">Simple Note</a>
+    </div>
+</div>
 
 {% endblock %}
