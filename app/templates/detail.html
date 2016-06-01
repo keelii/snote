@@ -10,14 +10,15 @@
 
 {% block body %}
 
-<div class="container">
-
-    <h3 class="green-text">{{ note.title }}</h3>
+<div class="container note-body">
+    <div class="note-title">
+        <h1 class="green-text">{{ note.title }}</h1>
+    </div>
     <div class="meta-info">
         <i class="material-icons">perm_identity</i> <span>{{ user.nick_name }}　</span>
         <i class="material-icons">date_range</i> <span>{{ note.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</span>
     </div>
-    <div class="note-content note-body">{{ note.content | safe }}</div>
+    <div class="note-content">{{ note.content | safe }}</div>
 
 </div>
 

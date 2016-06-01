@@ -123,7 +123,9 @@ body {
     color:#000;
     font-weight:normal;
     line-height:100%;
-    margin-bottom:2em;
+}
+.note-body h1 {
+    font-size:24px;
 }
 .note-body h2 {
     font-size:22px;
@@ -196,4 +198,8 @@ body {
 }
 .note-body abbr {
     border-bottom:1px dotted #bbb;
+}
+
+.note-title h1 {
+    font-size:30px;
 }
