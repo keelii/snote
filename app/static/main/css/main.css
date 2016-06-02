@@ -141,7 +141,6 @@ body {
     color:#000;
     font-weight:normal;
     line-height:100%;
-    margin-bottom:1em;
 }
 .note-body h1 {
     font-size:24px;
@@ -319,4 +318,7 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 
 .hljs-strong {
   font-weight: bold;
+}
+.note-title h1 {
+    font-size: 30px;
 }
